@@ -5,11 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import {toast} from 'react-toastify';
 
 const Login = () => {
+        const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('');
 
-    // const navigate = useNavigate();
 
     const handleChange =(e)=>{
         const {name, value} = e.target;
@@ -28,35 +28,35 @@ const Login = () => {
 
         if(role === 'Admin'){
             try {
-                const api =`${import.meta.env.VITE_API_URL}/admin/login`;
+                const api =`${import.meta.env.VITE_BACKEND_URL}/admin/login`;
                 const response = await axios.post(api, {email, password});
-                toast.success(response.data.msg);
-            //    navigate('/admin/dashboard');
-                
+                toast.success(response.data.message);
+                navigate('./admin/AdminDashboard')
+
             } catch (error) {
-                toast.error(error.response.data.msg);
+                toast.error(error.response.data.message);
             }
         }
-        else if(role === 'User'){
-            try {
-                const api =`${import.meta.env.VITE_API_URL}/user/login`;
-                const response = await axios.post(api, {email, password});
-                toast.success(response.data.msg);
-            //    navigate('/user/dashboard');
-            } catch (error) {
-                toast.error(error.response.data.msg);
-            }
-        }
-        else if(role === 'Employee'){
-            try {
-                const api =`${import.meta.env.VITE_API_URL}/employee/login`;
-                const response = await axios.post(api, {email, password});
-                toast.success(response.data.msg);
-            //    navigate('/employee/dashboard');
-            } catch (error) {
-                toast.error(error.response.data.msg);
-            }
-        }
+        // else if(role === 'User'){
+        //     try {
+        //         const api =`${import.meta.env.VITE_API_URL}/user/login`;
+        //         const response = await axios.post(api, {email, password});
+        //         toast.success(response.data.msg);
+        //     //    navigate('/user/dashboard');
+        //     } catch (error) {
+        //         toast.error(error.response.data.msg);
+        //     }
+        // }
+        // else if(role === 'Employee'){
+        //     try {
+        //         const api =`${import.meta.env.VITE_API_URL}/employee/login`;
+        //         const response = await axios.post(api, {email, password});
+        //         toast.success(response.data.msg);
+        //     //    navigate('/employee/dashboard');
+        //     } catch (error) {
+        //         toast.error(error.response.data.msg);
+        //     }
+        // }
     }
   return (
     <>
