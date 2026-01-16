@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const activitySchema = new mongoose.Schema({
     // 1. Performer (The person doing the action)
@@ -15,8 +15,8 @@ const activitySchema = new mongoose.Schema({
 
     // 2. The Action details
     action: {
-        type: String, 
-        required: true 
+        type: String,
+        required: true
         // Example: "TASK_ASSIGNED", "WORK_STARTED", "PROFILE_UPDATED"
     },
 
@@ -51,4 +51,4 @@ const activitySchema = new mongoose.Schema({
 activitySchema.index({ createdAt: -1 });
 
 const Activity = mongoose.model("Activity", activitySchema);
-export default Activity;
+module.exports = Activity;

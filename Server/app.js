@@ -6,8 +6,8 @@ const dotenv = require("dotenv");
 // Configuration
 dotenv.config();
 const { connectToDB } = require("./database/db.connection.js");
-const adminRouter = require("./routes/admin.route.js");
-const empRouter = require("./routes/employee.route.js");
+const adminRouter = require("./routers/admin.route.js");
+const empRouter = require("./routers/employee.route.js");
 
 const app = express();
 

@@ -1,13 +1,13 @@
-export const validators = {
+const validators = {
     /**
      * @description Validates a username format.
-     * Checks: 
+     * Checks:
      * 1. Must start with a lowercase letter (`^[a-z]`).
      * 2. Must only contain lowercase letters, numbers, or underscores (`[a-z0-9_]`).
      * 3. Must be between 5 and 17 characters long (1 required start character + 4 to 16 more characters).
      */
     userName: (str) => /^[a-z][a-z0-9_]{4,16}$/.test(str),
-    
+
     /**
      * @description Validates a basic email structure (local-part@domain.tld).
      * Checks:
@@ -19,7 +19,7 @@ export const validators = {
      * 6. Contains one or more non-whitespace, non-@ characters for the TLD (`[^\s@]+`).
      */
     email: (str) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str),
-    
+
     /**
      * @description Validates a strong password based on complexity and length.
      * Checks (using Lookaheads):
@@ -29,7 +29,7 @@ export const validators = {
      * 4. Only allows letters (A-Z, a-z), digits, and the specified symbols (`@$!%*?&`).
      */
     password: (str) => /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,64}$/.test(str),
-    
+
     /**
      * @description Validates a name/title string.
      * Checks:
@@ -37,7 +37,7 @@ export const validators = {
      * 2. Must be between 2 and 50 characters long (`{2,50}`).
      */
     name: (str) => /^[a-zA-Z\s]{2,50}$/.test(str),
-    
+
     /**
      * @description Utility for string cleanup (NOT a boolean validator).
      * Action:
@@ -55,7 +55,7 @@ const titleCaseName = name.toLowerCase().replace(
 
 
 
-export const fieldValidationsAndExtraSpaceCleanUp = (req,res,fieldWithValidationType)=>{
+const fieldValidationsAndExtraSpaceCleanUp = (req,res,fieldWithValidationType)=>{
       if(fieldWithValidationType.type==="name")
       {
         if(validators.name(fieldWithValidationType.field)){
@@ -65,3 +65,8 @@ export const fieldValidationsAndExtraSpaceCleanUp = (req,res,fieldWithValidation
         }
       }
 }
+
+module.exports = {
+  validators,
+  fieldValidationsAndExtraSpaceCleanUp
+};
