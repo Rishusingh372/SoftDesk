@@ -60,7 +60,7 @@ app.get("/", (req, res) => {
 const startServer = async () => {
     try {
         await connectToDB();
-        const PORT = process.env.PORT || 9998;
+        const PORT = 5000; // Hardcoded to 5000 for local development
         app.listen(PORT, () => {
             console.log(`✅ MongoDB Connected`);
             console.log(`🚀 Server listening on port ${PORT}`);

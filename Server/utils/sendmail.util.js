@@ -66,7 +66,7 @@ const sendEmail = async (to, subject, htmlContent, textContent) => {
     const msg = {
         to: to, 
         // MUST be the exact email you verified as a Single Sender
-        from: `"NITESH TASK MANAGER" <${process.env.SG_EMAIL}>`, 
+        from: `"Technodeveloper" <${process.env.SG_EMAIL}>`, 
         subject: subject,
         text: textContent,
         html: htmlContent,

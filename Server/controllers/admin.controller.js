@@ -1,4 +1,4 @@
-require("dotenv").configDotenv();
+require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { Admin } = require("../models/admin.model.js");
@@ -17,7 +17,7 @@ const mongoose = require("mongoose"); // Make sure you require Mongoose at the t
 const { validators } = require("../utils/validators.js");
 const { Report } = require("../models/report.model.js");
 const { findById } = require("../models/counter.model.js");
-const { default: Activity } = require("../models/activity.model.js");
+const Activity = require("../models/activity.model.js");
 
 const generateAdminTokens = async (adminId) => {
   const admin = await Admin.findById(adminId).select("-password -refreshToken");
@@ -139,16 +139,21 @@ const employeeRegistration = async (req, res) => {
       createdBy: req.user._id
     });
 
-    // 3. Send Email WITHOUT 'await'
-    // This allows the response to be sent immediately while the email sends in the background
-    sendEmail(
-      email,
-      "Welcome to App",
-      mailData(fullName, userName, password),
-      "Your account has been created."
-    ).catch(err => console.error("Background Email Error:", err));
+    // 3. Send Email (await to ensure it's attempted before responding)
+    try {
+      await sendEmail(
+        email,
+        "Welcome to App",
+        mailData(fullName, userName, password),
+        "Your account has been created."
+      );
+      console.log(`Email sent successfully to ${email}`);
+    } catch (err) {
+      console.error("Email send failed:", err);
+      // Note: Employee is still created, but email failed. You may want to handle this differently.
+    }
 
-    // 4. Respond to client immediately
+    // 4. Respond to client
     return res.status(201).json({ msg: "User successfully created", emp });
 
   } catch (error) {
@@ -633,11 +638,12 @@ const getActivities = async (req, res) => {
         const activities = await Activity.find()
             .sort({ createdAt: -1 }) // Newest first
             .limit(20)
-            .populate('performerId', 'name fullName profileImage') // Get names/images
-            .populate('targetId', 'name reportTitle'); // Get task name or report title
-            
+            .populate('performerId') // Populate performer details
+            .populate('targetId'); // Populate target details
+
         res.status(200).json(activities);
     } catch (error) {
+        console.error("Error fetching activities:", error);
         res.status(500).json({ msg: "Failed to fetch activities" });
     }
 };
