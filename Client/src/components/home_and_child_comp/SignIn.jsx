@@ -9,6 +9,7 @@ import { inputOnChange } from '../../utils/utility.functions'
 import axios from 'axios'
 import { USER_ROLES } from '../../enums/roles'
 import { AntDContext } from '../../contexts/AntDContext.js'
+import Header from './Header.jsx'
 
 
 function SignIn() {
@@ -80,16 +81,9 @@ const empLogin = async()=>{
     }
   
   return (
-    // The 'auth' class provides the full-page background and relative positioning for the icon
-    <div className='auth' >
-      
-      {/* 🚀 Home Link: Positioned absolutely via the .home-link CSS class */}
-      <Link to="/" className="home-link">
-        <Home size={20} />
-        {/* The span text is hidden on mobile devices via CSS, showing only the icon */}
-        <span>Back to Home</span> 
-      </Link>
-      
+    <>
+    <Header/>
+    <div className='auth' > 
       <div className="login-container">
         <h2>Welcome Back!</h2>
         <p>Choose your role to log in to your dashboard.</p>
@@ -130,6 +124,7 @@ const empLogin = async()=>{
       
       </div>
     </div>
+    </>
   )
 }
 
