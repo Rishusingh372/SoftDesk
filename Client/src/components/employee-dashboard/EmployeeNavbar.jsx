@@ -25,7 +25,7 @@ function EmployeeNavbar() {
         
         {/* 🚀 LOGO 🚀 */}
         <div className="navbar-logo">
-          TaskFlow
+          SoftDesk
         </div>
         
         {/* Vertical Separator between Logo and Menu */}

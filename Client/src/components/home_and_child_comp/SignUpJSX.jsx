@@ -11,7 +11,7 @@ export function SignUpJSX({setFormData,signUpHandler,inputOnChange,formData}) {
         <span>Back to Home</span> 
       </Link>
        <div className="login-container">
-    <h2>Join TaskFlow</h2>
+    <h2>Join SoftDesk</h2>
     <p>Set up your account and define your primary role.</p>
 <Roles/>
     <form className="login-form signup-form" onSubmit={signUpHandler}>

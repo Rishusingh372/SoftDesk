@@ -105,7 +105,7 @@ function AdminDashBoardContent() {
                 <div>
 
                 <h1 className="organization-name">
-                    Welcome, {currentUser.orgnization||"**TaskFlow Management Admin**"}
+                    Welcome, {currentUser.orgnization||"**SoftDesk Management Admin**"}
                 </h1>
             <p>{todayDate}</p>
                 </div>

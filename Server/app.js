@@ -26,7 +26,7 @@ app.set("trust proxy", 1);
  */
 app.use(cors({
     origin: [
-        "https://taskflow-app-rose.vercel.app", 
+        "https://SoftDesk-app-rose.vercel.app", 
         "http://localhost:5173" // For local development
     ],
     credentials: true,
