@@ -26,7 +26,7 @@ app.set("trust proxy", 1);
  */
 app.use(cors({
     origin: [
-        "https://SoftDesk-app-rose.vercel.app", 
+        "https://soft-desk-sandy.vercel.app/", // Production frontend URL
         "http://localhost:5173" // For local development
     ],
     credentials: true,
