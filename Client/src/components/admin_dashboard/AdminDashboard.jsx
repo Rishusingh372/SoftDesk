@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import AdminNavBar from "./AdminNavBar";
 import "../../assets/css/AdminDashboard.css";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { AdminDashBoardContext } from "../../contexts/AdminDashBoardContext.js";
 import { CreateTaskForm } from "./dashboard-home-options/CreateTaskForm";
 import { CreateEmployeeForm } from "./dashboard-home-options/CreateEmployeeForm.jsx";
@@ -26,6 +26,7 @@ const navLinks = [
 ];
 
 function AdminDashboard() {
+    const navigate = useNavigate();
     const { showError, showSuccess } = useContext(AntDContext); // For AntD messages
     const {configPrompt,currentUser} = useContext(TASK_MANAGEMENT_HOME)
     const [refetch,setRefetch]=useState(false)

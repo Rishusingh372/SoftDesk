@@ -1,131 +1,259 @@
-import React, { useContext, useEffect, useState } from 'react'
-// ⚠️ Ensure this path is correct based on where you saved the universal CSS
-import "../../assets/css/auth.css" 
-import { Link, Navigate, useNavigate } from 'react-router-dom'
-import { Home } from 'lucide-react' // Import the Home icon (Lucide or equivalent)
-import Roles from './Roles'
-import { TASK_MANAGEMENT_HOME } from '../../contexts/TaskManageMent.context' // Context kept as per your original file structure
-import { inputOnChange } from '../../utils/utility.functions'
-import axios from 'axios'
-import { USER_ROLES } from '../../enums/roles'
-import { AntDContext } from '../../contexts/AntDContext.js'
-import Header from './Header.jsx'
+// import React, { useContext, useEffect, useState } from 'react'
+// // ⚠️ Ensure this path is correct based on where you saved the universal CSS
+// import "../../assets/css/auth.css" 
+// import { Link, Navigate, useNavigate } from 'react-router-dom'
+// import { Home } from 'lucide-react' // Import the Home icon (Lucide or equivalent)
+// import Roles from './Roles'
+// import { TASK_MANAGEMENT_HOME } from '../../contexts/TaskManageMent.context' // Context kept as per your original file structure
+// import { inputOnChange } from '../../utils/utility.functions'
+// import axios from 'axios'
+// import { USER_ROLES } from '../../enums/roles'
+// import { AntDContext } from '../../contexts/AntDContext.js'
+// import Header from './Header.jsx'
 
+
+// function SignIn() {
+// const navigate = useNavigate();
+// const {showError,showSuccess} = useContext(AntDContext)
+// const {setCurrentUser,selectedAuthRole,currentUser} = useContext(TASK_MANAGEMENT_HOME)
+ 
+//   const [formdata,setFormData]= useState({
+//     userNameOrEmail:"",
+//     password:"",
+//     role:selectedAuthRole.current
+//   })
+// useEffect(()=>{
+//     if(!currentUser) return;
+//     if(currentUser.role==='admin') {navigate('/admin-dashboard')}
+//     if(currentUser.role==='employee') {navigate('/employee-dashboard')}
+
+// },[])
+
+
+// const adminLogin = async()=>{
+//     try {
+//        const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`,formdata,{withCredentials:true})
+//         console.log(response?.data)
+//         setCurrentUser(response.data.admin)
+//         showSuccess("login successful",3)
+//         localStorage.setItem("currentUser",JSON.stringify(response.data.admin))
+//         navigate('/admin-dashboard')
+//     } catch (error) {
+//       console.log("error is",error)
+//       if(error?.response?.data){
+//         showError(error.response?.data.msg)
+//       }
+      
+//     }
+// }
+// const empLogin = async()=>{
+//    try {
+//       const response = await axios.post(`${import.meta.env.VITE_EMP_API_URL}/login`,formdata)
+//        console.log(response.data)
+//        setCurrentUser(response.data)
+//        localStorage.setItem("currentUser",JSON.stringify(response.data))
+//        console.log("emp login")
+//        showSuccess("login successful",3)
+//        navigate('/employee-dashboard')
+//    } catch (error) {
+//      console.log(error)
+//       if(error.response.data){
+//         showError(error.response.data)
+//       }
+//    }
+// }
+//   const handleOnSubmit = async(e)=>{
+//     e.preventDefault()
+
+//       if(!formdata.userNameOrEmail ||!formdata.password){
+//         alert("fill all the fields")
+//         return
+//       }
+//       if(selectedAuthRole.current===USER_ROLES.EMPLOYEE) {
+//           empLogin()
+//           return
+//       }
+//      else if(selectedAuthRole.current===USER_ROLES.ADMIN) {
+//         adminLogin()
+//           return
+//       }
+
+//     }
+  
+//   return (
+//     <>
+//     <Header/>
+//     <div className='auth' > 
+//       <div className="login-container">
+//         <h2>Welcome Back!</h2>
+//         <p>Choose your role to log in to your dashboard.</p>
+        
+//         {/* Roles Component handles role selection logic */}
+//         <Roles/>
+        
+//         <form className="login-form" onSubmit={handleOnSubmit}>
+//           <div className="input-group">
+//             <label htmlFor="username">Username or email</label>
+//             <input
+//               type="text"
+//               id="username"
+//               name="userNameOrEmail"
+//                onChange={inputOnChange(setFormData)}
+//               placeholder="Enter your username or email"
+//               required=""
+//             />
+//           </div>
+//           <div className="input-group">
+//             <label htmlFor="password">Password</label>
+//             <input
+//               type="password"
+//               id="password"
+//               name="password"
+//               onChange={inputOnChange(setFormData)}
+//               placeholder="Enter your password"
+//               required=""
+//             />
+//           </div>
+//           <div className="forgot-password">
+//             <Link to="#">Forgot Password?</Link>
+//           </div>
+//           <button type="submit" className="login-button">
+//             Log In
+//           </button>
+//         </form>
+      
+//       </div>
+//     </div>
+//     </>
+//   )
+// }
+
+// export default SignIn
+
+
+import React, { useContext, useEffect, useState } from "react";
+import "../../assets/css/auth.css";
+import { Link, useNavigate } from "react-router-dom";
+import Roles from "./Roles";
+import { TASK_MANAGEMENT_HOME } from "../../contexts/TaskManageMent.context";
+import { inputOnChange } from "../../utils/utility.functions";
+import axios from "axios";
+import { USER_ROLES } from "../../enums/roles";
+import { AntDContext } from "../../contexts/AntDContext.js";
+import Header from "./Header.jsx";
 
 function SignIn() {
-const navigate = useNavigate();
-const {showError,showSuccess} = useContext(AntDContext)
-const {setCurrentUser,selectedAuthRole,currentUser} = useContext(TASK_MANAGEMENT_HOME)
- 
-  const [formdata,setFormData]= useState({
-    userNameOrEmail:"",
-    password:"",
-    role:selectedAuthRole.current
-  })
-useEffect(()=>{
-    if(!currentUser) return;
-    if(currentUser.role==='admin') {return   navigate('/admin-dashboard')}
-    if(currentUser.role==='employee') {return   navigate('/employee-dashboard')}
+  const navigate = useNavigate();
+  const { showError, showSuccess } = useContext(AntDContext);
+  const { setCurrentUser, selectedAuthRole, currentUser } =
+    useContext(TASK_MANAGEMENT_HOME);
 
-},[])
+  const [formdata, setFormData] = useState({
+    userNameOrEmail: "",
+    password: "",
+    role: selectedAuthRole.current,
+  });
 
+  // ✅ redirect correctly when currentUser changes
+  useEffect(() => {
+    if (!currentUser) return;
+    if (currentUser.role === "admin") navigate("/admin-dashboard");
+    if (currentUser.role === "employee") navigate("/employee-dashboard");
+  }, [currentUser, navigate]);
 
-const adminLogin = async()=>{
+  const adminLogin = async () => {
     try {
-       const response = await axios.post(`${import.meta.env.VITE_API_URL}/login`,formdata,{withCredentials:true})
-        console.log(response?.data)
-        setCurrentUser(response.data.admin)
-        showSuccess("login successful",3)
-        localStorage.setItem("currentUser",JSON.stringify(response.data.admin))
-        navigate('/admin-dashboard')
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/login`,
+        formdata,
+        { withCredentials: true }
+      );
+
+      setCurrentUser(response.data.admin);
+      localStorage.setItem("currentUser", JSON.stringify(response.data.admin));
+      showSuccess("login successful", 3);
+      navigate("/admin-dashboard");
     } catch (error) {
-      console.log("error is",error)
-      if(error?.response?.data){
-        showError(error.response?.data.msg)
-      }
-      
+      showError(error?.response?.data?.msg || "Admin login failed");
     }
-}
-const empLogin = async()=>{
-   try {
-      const response = await axios.post(`${import.meta.env.VITE_EMP_API_URL}/login`,formdata)
-       console.log(response.data)
-       setCurrentUser(response.data)
-       localStorage.setItem("currentUser",JSON.stringify(response.data))
-       console.log("emp login")
-       showSuccess("login successful",3)
-       navigate('/employee-dashboard')
-   } catch (error) {
-     console.log(error)
-      if(error.response.data){
-        showError(error.response.data)
-      }
-   }
-}
-  const handleOnSubmit = async(e)=>{
-    e.preventDefault()
+  };
 
-      if(!formdata.userNameOrEmail ||!formdata.password){
-        alert("fill all the fields")
-        return
-      }
-      if(selectedAuthRole.current===USER_ROLES.EMPLOYEE) {
-          empLogin()
-          return
-      }
-     else if(selectedAuthRole.current===USER_ROLES.ADMIN) {
-        adminLogin()
-          return
-      }
+  const empLogin = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_EMP_API_URL}/login`,
+        formdata,
+        { withCredentials: true } // ✅ FIXED
+      );
 
+      setCurrentUser(response.data);
+      localStorage.setItem("currentUser", JSON.stringify(response.data));
+      showSuccess("login successful", 3);
+      navigate("/employee-dashboard");
+    } catch (error) {
+      showError(error?.response?.data?.msg || "Employee login failed");
     }
-  
+  };
+
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formdata.userNameOrEmail || !formdata.password) {
+      showError("Fill all the fields");
+      return;
+    }
+
+    if (selectedAuthRole.current === USER_ROLES.EMPLOYEE) return empLogin();
+    if (selectedAuthRole.current === USER_ROLES.ADMIN) return adminLogin();
+  };
+
   return (
     <>
-    <Header/>
-    <div className='auth' > 
-      <div className="login-container">
-        <h2>Welcome Back!</h2>
-        <p>Choose your role to log in to your dashboard.</p>
-        
-        {/* Roles Component handles role selection logic */}
-        <Roles/>
-        
-        <form className="login-form" onSubmit={handleOnSubmit}>
-          <div className="input-group">
-            <label htmlFor="username">Username or email</label>
-            <input
-              type="text"
-              id="username"
-              name="userNameOrEmail"
-               onChange={inputOnChange(setFormData)}
-              placeholder="Enter your username or email"
-              required=""
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              onChange={inputOnChange(setFormData)}
-              placeholder="Enter your password"
-              required=""
-            />
-          </div>
-          <div className="forgot-password">
-            <Link to="#">Forgot Password?</Link>
-          </div>
-          <button type="submit" className="login-button">
-            Log In
-          </button>
-        </form>
-      
+      <Header />
+      <div className="auth">
+        <div className="login-container">
+          <h2>Welcome Back!</h2>
+          <p>Choose your role to log in to your dashboard.</p>
+
+          <Roles />
+
+          <form className="login-form" onSubmit={handleOnSubmit}>
+            <div className="input-group">
+              <label htmlFor="username">Username or email</label>
+              <input
+                type="text"
+                id="username"
+                name="userNameOrEmail"
+                onChange={inputOnChange(setFormData)}
+                placeholder="Enter your username or email"
+                required
+              />
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                onChange={inputOnChange(setFormData)}
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <div className="forgot-password">
+              <Link to="#">Forgot Password?</Link>
+            </div>
+
+            <button type="submit" className="login-button">
+              Log In
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
     </>
-  )
+  );
 }
 
-export default SignIn
+export default SignIn;
