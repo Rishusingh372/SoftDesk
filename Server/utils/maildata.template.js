@@ -149,7 +149,7 @@ const mailData = (fullName, userName, password) => `
       </div>
 
       <div class="cta-wrapper">
-        <a href="[YOUR_LOGIN_URL_HERE]" class="cta-button">
+        <a href="[https://soft-desk-sandy.vercel.app/]" class="cta-button">
           Open SoftDesk Dashboard
         </a>
       </div>
