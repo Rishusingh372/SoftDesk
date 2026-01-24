@@ -73,6 +73,11 @@ function AdminDashboard() {
                 setTasks(response.data.tasks);
                 setError(null);
             } catch (err) {
+                    if (err?.response?.status === 401) {
+                        localStorage.removeItem("currentUser");
+                        navigate('/signin');
+                        return;
+                    }
                     if(err?.response?.data?.isRevoked){
                         showError("Token revoked!! login again")
                     }
@@ -82,7 +87,7 @@ function AdminDashboard() {
         };
 
         fetchTasks();
-    }, [refetch,showError]);
+    }, [refetch,showError,navigate]);
 
     // --- Fetch Employees ---
     useEffect(() => {
@@ -94,6 +99,11 @@ function AdminDashboard() {
                 setAllEmployees(fetchedEmployees);
                 setError(null);
             } catch (err) {
+               if (err?.response?.status === 401) {
+                        localStorage.removeItem("currentUser");
+                        navigate('/signin');
+                        return;
+                    }
                if(err?.response?.data?.isRevoked){
                         showError("Token revoked!! login again")
                     }
@@ -103,7 +113,7 @@ function AdminDashboard() {
             }
         };
         fetchEmployees();
-    }, [showError,refetch]);
+    }, [showError,refetch,navigate]);
     // --- Fetch Reports ---
     useEffect(() => {
         const fetchReports = async () => {
@@ -114,6 +124,11 @@ function AdminDashboard() {
                 setReports(fetchedReports);
                 setError(null);
             } catch (err) {
+               if (err?.response?.status === 401) {
+                        localStorage.removeItem("currentUser");
+                        navigate('/signin');
+                        return;
+                    }
                    if(err?.response?.data?.isRevoked){
                         showError("Token revoked!! login again")
                     }
@@ -123,7 +138,7 @@ function AdminDashboard() {
             }
         };
         fetchReports();
-    }, [showError,refetch]);
+    }, [showError,refetch,navigate]);
 
     // --- Fetch Admin Metadata ---
     useEffect(() => {
@@ -133,12 +148,17 @@ function AdminDashboard() {
                 const response = await axios.get(`${apiUrl}/metadata`,{withCredentials:true});
                 setAdminmetaData(response.data);
             } catch (error) {
+                if (error?.response?.status === 401) {
+                    localStorage.removeItem("currentUser");
+                    navigate('/signin');
+                    return;
+                }
                 showError("metadata")
                 showError(error.response.data.msg);
             }
         };
         fetchAdminMetaData();
-    }, [showError,refetch]);
+    }, [showError,refetch,navigate]);
     useEffect(() => {
         const fetchActivities = async () => {
         try {
